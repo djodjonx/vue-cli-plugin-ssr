@@ -13,6 +13,20 @@ module.exports = api => {
     },
   }
 
+  const taskBuild = {
+    prompts: [
+      {
+        name: 'modern',
+        type: 'confirm',
+        default: false,
+        description: 'Build in modern mode',
+      },
+    ],
+    onBeforeRun: ({ answers, args }) => {
+      if (answers.modern) args.push('--modern')
+    },
+  }
+
   api.describeTask({
     match: /vue-cli-service ssr:serve --mode production/,
     description: 'Starts the included HTTP server for SSR in production',
@@ -31,5 +45,6 @@ module.exports = api => {
     match: /vue-cli-service ssr:build/,
     description: 'Compiles and minifies for production with SSR',
     link: 'https://github.com/Akryum/vue-cli-plugin-ssr#usage',
+    ...taskBuild,
   })
 }
