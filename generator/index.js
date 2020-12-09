@@ -10,12 +10,18 @@ module.exports = (api, options, rootOptions) => {
     throw new Error('Please install router plugin with \'vue add router\'.')
   }
 
+  const scriptsToAdd = {
+    'ssr:serve': 'vue-cli-service ssr:serve',
+    'ssr:build': 'vue-cli-service ssr:build',
+    'ssr:start': 'cross-env NODE_ENV=production vue-cli-service ssr:serve --mode production',
+  }
+
+  if (options.useModernMode) {
+    scriptsToAdd['ssr:build-modern'] = 'vue-cli-service ssr:build --modern'
+  }
+
   api.extendPackage({
-    scripts: {
-      'ssr:serve': 'vue-cli-service ssr:serve',
-      'ssr:build': 'vue-cli-service ssr:build',
-      'ssr:start': 'cross-env NODE_ENV=production vue-cli-service ssr:serve --mode production',
-    },
+    scripts: scriptsToAdd,
     dependencies: {
       'vue-server-renderer': '^2.6.0',
     },
@@ -33,9 +39,15 @@ module.exports = (api, options, rootOptions) => {
     vuex: api.hasPlugin('vuex'),
     pwa: api.hasPlugin('pwa'),
     apollo: api.hasPlugin('apollo'),
+    useVssr: options.useVssr,
+    useModernMode: options.useModernMode,
   }
 
   api.render('./templates/default', templateOptions)
+
+  if (options.useTitlePlugin) {
+    api.render('./templates/extra')
+  }
 
   api.onCreateComplete(() => {
     // Main
@@ -43,19 +55,26 @@ module.exports = (api, options, rootOptions) => {
       const file = getFile(api, './src/main.js')
       if (file) {
         let contents = fs.readFileSync(file, { encoding: 'utf8' })
+        if (options.useTitlePlugin) {
+          contents = contents.replace(/import Vue from ('|")\.\/vue(\.\w+)?('|")/, `import Vue from 'vue'
+          import titlePlugin from './plugins/titlePlugin`)
+        }
         contents = contents.replace(/import router from ('|")\.\/router(\.\w+)?('|")/, 'import { createRouter } from $1./router$3')
         contents = contents.replace(/import store from ('|")\.\/store(\.\w+)?('|")/, 'import { createStore } from $1./store$3')
         contents = contents.replace(/import ('|")\.\/registerServiceWorker('|")\n/, '')
         contents = contents.replace(/const apolloProvider = createProvider\(({(.|\s)*?})?\)\n/, '')
         contents = contents.replace(/new Vue\({((.|\s)*)}\)\.\$mount\(.*?\)/, `export async function createApp ({
           beforeApp = () => {},
-          afterApp = () => {}
+          afterApp = () => {},
+          ${templateOptions.titlePlugin ? 'isServer = false' : ''}
         } = {}) {
           const router = createRouter()
           ${templateOptions.vuex ? 'const store = createStore()' : ''}
           ${templateOptions.apollo ? `const apolloProvider = createProvider({
             ssr: process.server,
           })` : ''}
+
+          ${templateOptions.titlePlugin ? 'Vue.use(titlePlugin, { isServer })' : ''}
 
           await beforeApp({
             router,
@@ -131,7 +150,7 @@ module.exports = (api, options, rootOptions) => {
         contents = contents.replace(/export default app => {((.|\s)*)}/, `export default app => {$1
           ssrMiddleware(app, { prodOnly: true })
         }`)
-        contents = 'import ssrMiddleware from \'@akryum/vue-cli-plugin-ssr/lib/app\'\n' + contents
+        contents = 'import ssrMiddleware from \'vue-cli-plugin-vssr/lib/app\'\n' + contents
         fs.writeFileSync(file, contents, { encoding: 'utf8' })
       }
 
