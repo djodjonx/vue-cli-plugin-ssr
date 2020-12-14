@@ -39,15 +39,6 @@ module.exports = {
       lruCacheOptions: {
         // See https://ssr.vuejs.org/guide/caching.html
       },
-      // apply default middleware like compression, serving static files
-      applyDefaultServer: true,
-      // Function to extend app context object
-      extendContext: (req, res, process) => ({ appMode: process.env.APP_MODE }),
-      // Function to connect custom middlewares
-      extendServer: app => {
-        const cookieParser = require('cookie-parser')
-        app.use(cookieParser())
-      },
       // Copy URL to system clipboard on start
       copyUrlOnStart: true,
       // Function to call after rendering has been completed

@@ -22,7 +22,7 @@ export default context => {
 <%_ if (apollo) { _%>
       apolloProvider
 <%_ } _%>
-    } = await createApp()
+    } = await createApp({ isServer: true })
 
     router.push(prepareUrlForRouting(context.url))
 

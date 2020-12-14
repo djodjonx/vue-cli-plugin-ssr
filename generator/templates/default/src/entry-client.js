@@ -1,7 +1,7 @@
 <%_ if (apollo) { _%>
 import 'isomorphic-fetch'
 <%_ } _%>
-import { loadAsyncComponents } from '@akryum/vue-cli-plugin-ssr/client'
+import { loadAsyncComponents } from 'vue-cli-plugin-vssr/client'
 <%_ if (pwa) { _%>
 import './registerServiceWorker'
 <%_ } _%>
@@ -19,7 +19,7 @@ createApp({
     app,
     router,
     <%_ if (vuex) { _%>
-      store,
+    store,
     <%_ } _%>
   }) {
     <%_ if (vuex) { _%>

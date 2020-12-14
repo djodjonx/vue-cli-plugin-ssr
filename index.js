@@ -1,5 +1,10 @@
 const config = require('./lib/config')
 const defaultConfig = require('./lib/default-config')
+const fs = require('fs')
+const { chalk } = require('@vue/cli-shared-utils')
+const portFinder = require('./lib/utils/portFinder')
+const path = require('path')
+const { isFunction } = require('./lib/utils/sharedTools')
 
 module.exports = (api, options) => {
   // Config
@@ -96,25 +101,74 @@ module.exports = (api, options) => {
     options: {
       '-p, --port [port]': 'specify port',
       '-h, --host [host]': 'specify host',
+      '-s, --server [path]': 'specify server file path',
+      '-c, --config [path]': 'specify config file path',
+      '-m, --mode [mode]': 'specify mode production/development',
     },
   }, async (args) => {
-    const { createServer } = require('./lib/server')
+    const rootPath = api.getCwd()
+    let serverInstance = null
+    let userConfig = null
 
-    let port = args.port || config.port || process.env.PORT
-    if (!port) {
-      const portfinder = require('portfinder')
-      port = await portfinder.getPortPromise()
+    const argsServer = args.server || args.s
+    const argsConfig = args.config || args.c
+    const argsPort = args.port || args.p
+    const argsHost = args.host || args.h
+    const argsMode = args.mode || args.m
+
+    if (argsMode && argsMode === 'production') {
+      process.env.NODE_ENV = 'production'
+    } else {
+      process.env.NODE_ENV = 'development'
     }
 
-    const host = args.host || config.host || process.env.HOST || 'localhost'
+    if (argsConfig) {
+      const fullPath = path.resolve(rootPath, `${argsConfig}`)
+      if (!fs.existsSync(fullPath)) {
+        console.error(`${chalk.yellow('[WARN]')}: no config file found, use plugin config !!!`)
+      } else {
+        const importedConf = require(fullPath)
+        userConfig = isFunction(importedConf) ? importedConf(rootPath) : importedConf
 
-    config.port = port
-    config.host = host
+        // delete service and api from custom user config
+        // we need use cli service and api
+        delete userConfig.service
+        delete userConfig.api
+      }
+    }
 
-    return createServer({
-      port,
-      host,
-    })
+    let usedPort = argsPort || config.port || process.env.PORT
+    if (!usedPort) {
+      usedPort = await portFinder()
+    }
+
+    const usedHost = argsHost || config.host || process.env.HOST || 'localhost'
+
+    const currentConfig = Object.assign(config, userConfig)
+
+    currentConfig.rootPath = rootPath
+    currentConfig.mode = process.env.NODE_ENV
+    currentConfig.port = usedPort
+    currentConfig.host = usedHost
+
+    if (argsServer) {
+      const useServer = require('./lib/core/useServer')
+      try {
+        const serverPath = path.resolve(rootPath, `${argsServer}`)
+        serverInstance = useServer(serverPath, currentConfig)
+      } catch (error) {
+        console.error(error.message)
+        console.error('Fallback to builtIns server')
+      }
+    }
+    if (!serverInstance) {
+      const Server = require('./lib/core/builtInsServer')
+      serverInstance = new Server({
+        config: currentConfig,
+      })
+    }
+
+    return serverInstance.runServer()
   })
 }
 

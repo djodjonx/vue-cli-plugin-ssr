@@ -1,8 +1,8 @@
 {
-  "name": "@akryum/vue-cli-plugin-ssr",
-  "version": "0.5.0",
-  "description": "Turn your app into an isomorphic SSR app!",
-  "author": "Guillaume Chau",
+  "name": "vue-cli-plugin-vssr",
+  "version": "1.0.0",
+  "description": "Turn your Vue app into an isomorphic SSR app with customizable koa Server!",
+  "author": "Jonathan Moutier",
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn run test",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Akryum/vue-cli-plugin-ssr.git"
+    "url": "git+https://github.com/djodjonx/vue-cli-plugin-vssr.git"
   },
   "publishConfig": {
     "access": "public"
@@ -21,20 +21,25 @@
   "keywords": [
     "vue",
     "vue-cli",
-    "ssr"
+    "ssr",
+    "koa",
+    "v-ssr",
+    "modern-build"
   ],
-  "homepage": "https://github.com/Akryum/vue-cli-plugin-ssr",
+  "homepage": "https://github.com/djodjonx/vue-cli-plugin-vssr",
   "bugs": {
-    "url": "https://github.com/Akryum/vue-cli-plugin-ssr/issues"
+    "url": "https://github.com/djodjonx/vue-cli-plugin-vssr/issues"
   },
   "main": "index.js",
   "dependencies": {
-    "chalk": "^2.4.2",
     "clipboardy": "^2.1.0",
-    "compression": "^1.7.4",
-    "cross-env": "^6.0.3",
     "execa": "^3.2.0",
-    "express": "^4.17.1",
+    "koa": "^2.13.0",
+    "koa-compress": "^5.0.1",
+    "@koa/cors": "^3.1.0",
+    "koa-favicon": "^2.1.0",
+    "@koa/router": "^10.0.0",
+    "koa-static": "^5.0.0",
     "fs-extra": "^8.1.0",
     "hash-sum": "^2.0.0",
     "loader-utils": "^1.2.3",
@@ -44,7 +49,6 @@
     "querystring": "^0.2.0",
     "recast": "^0.18.5",
     "rimraf": "^3.0.0",
-    "serve-favicon": "^2.5.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^4.2.2",
@@ -58,10 +62,12 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
-    "vuepress": "^0.14.8"
+    "vuepress": "^0.14.8",
+    // "@vue/cli-service": ">=3.0.0",
+    // "core-js": "^3.6.5",
+    // "axios": "^0.18.0"
   },
   "peerDependencies": {
-    "@vue/cli-service": ">=3.0.0",
     "@vue/cli-shared-utils": ">=3.0.0",
     "vue": "^2.6.0",
     "vue-server-renderer": "^2.6.0",
