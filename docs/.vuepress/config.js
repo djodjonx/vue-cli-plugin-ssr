@@ -7,12 +7,12 @@ module.exports = {
   locales: {
     '/': {
       lang: 'en-US',
-      title: 'Vue CLI SSR plugin',
+      title: 'Vue CLI VSSR plugin',
       description: 'Dead Simple Server-Side-Rendering',
     },
   },
   themeConfig: {
-    repo: 'Akryum/vue-cli-plugin-ssr',
+    repo: 'djodjonx/vue-cli-plugin-ssr',
     docsDir: 'docs',
     editLinks: true,
     serviceWorker: {
@@ -27,10 +27,6 @@ module.exports = {
           {
             text: 'Guide',
             link: '/guide/',
-          },
-          {
-            text: 'Patreon',
-            link: 'https://www.patreon.com/akryum',
           },
         ],
         sidebarDepth: 3,
