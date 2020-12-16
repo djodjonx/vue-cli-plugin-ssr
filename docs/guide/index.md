@@ -1,8 +1,7 @@
 # Usage
 
-::: warning
-This plugin is intended to be used in a project created with Vue CLI 3.
-:::
+:warning:
+This plugin is intended to be used in a project created with Vue CLI 3 & 4.
 
 ## Add plugin
 
