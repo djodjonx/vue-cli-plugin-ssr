@@ -8,7 +8,7 @@ if you use builtIns server, you just need have vue-cli-service installed on your
 
 Before all, build your application locally or on your Pipeline.
 
-`:warning: You should have vue-cli-service installed for run build`
+:warning:`You should have vue-cli-service installed for run build`
 
 ### normal build
 ```bash
