@@ -69,4 +69,9 @@ Add a tiny Vue plugin for generate dynamically your page title with a vue compon
   yarn run ssr:start
 
 ```
+## Documentation
 
+- [Configuration](./configuration.md)
+- [Directives](./directives.md)
+- [Logger](./logger.md)
+- [Router](./router.md)

@@ -23,6 +23,12 @@ Simple Server-Side-Rendering plugin for Vue CLI made with Koa
 
 <br>
 
+## Documentation
+
+- [Installation](./docs/index.md)
+- [Configuration](./docs/configuration.md)
+- [Webpack](./docs/webpack.md)
+
 **:rocket: Roadmap:**
 
 - Integration with CLI UI
