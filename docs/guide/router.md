@@ -26,8 +26,7 @@ const route = {
 
 ## Config
 
-:::warning
-Work's only with builtIns server or if you use Vssr module with local server :::
+:warning: Work's only with builtIns server or if you use Vssr module with local server
 
 For extending builtIns router just add your custom route on extendRouter config parameter. All routes are directly injects on router when app launch.
 
