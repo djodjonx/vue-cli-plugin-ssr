@@ -15,7 +15,7 @@ Chose your setup config
 
 1. Use Built ins server (Yes/no)
 
-Configure your project for use the `builtIns server`:computer:  ***made with koa*** (easy use). Can be extend & customize with configuration cf[doc].
+Configure your project for use the `builtIns server`:computer:  ***made with koa*** (easy use). Can be extend & customize with configuration cf[configuration](./configuration).
 Else, a base koa server was generate on your project on _projectRoot/server_.
 
 2. Use Vssr module (Yes/no)
@@ -34,7 +34,7 @@ Use local server with Vssr module (0 conf), who include pre-configured :
 - component caching
 - route caching
 
-All middlewares and caching can be customizable with configuration file include with the local server generate.
+All middlewares and caching can be customizable with configuration file include with the local server generated.
 
 3. Use modern-mode (yes/no)
 
@@ -74,3 +74,4 @@ Add a tiny Vue plugin for generate dynamically your page title with a vue compon
 - [Directives](./directives.md)
 - [Logger](./logger.md)
 - [Router](./router.md)
+- [Deployment](./deployment.md)

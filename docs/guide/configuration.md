@@ -1,6 +1,6 @@
 # Configuration
 
-Here are the optional settings available in your `vue.config.js` file:
+Here are the optional settings available in your `vue.config.js` if you use `builtIns Server` or in dedicated file on **/server/config**:
 
 ```js
 const path = require('path')
