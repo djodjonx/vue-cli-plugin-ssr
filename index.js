@@ -38,9 +38,11 @@ module.exports = (api, options) => {
     const { getWebpackConfigs } = require('./lib/webpack')
 
     const compile = ({ webpackConfigs, watch, service }) => {
-      Object.keys(require.cache)
-        .filter(key => key.includes('@vue/cli-plugin-babel'))
-        .forEach(key => delete require.cache[key])
+      if (modernMode) {
+        Object.keys(require.cache)
+          .filter(key => key.includes('@vue/cli-plugin-babel'))
+          .forEach(key => delete require.cache[key])
+      }
 
       const webpack = require('webpack')
       const formatStats = require('@vue/cli-service/lib/commands/build/formatStats')
