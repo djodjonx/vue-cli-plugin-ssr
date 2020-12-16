@@ -290,9 +290,12 @@ function editConfig (config, { vssr, modern }) {
     delete config.middlewares
     delete config.extendRouter
     delete config.onRender
+    delete config.onBeforeSend
+    delete config.onError
   }
   delete config.api
   delete config.service
+  delete config.prodOnly
   return Object.assign(config, {
     rootPath: '.',
     distPath: './dist',

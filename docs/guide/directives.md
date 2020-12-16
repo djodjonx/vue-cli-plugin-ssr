@@ -18,7 +18,7 @@ Vue.directive('red', red)
 <div v-red>My red text</div>
 ```
 
-This directive won't work with SSR. So we need a fallback. 
+This directive won't work with SSR. So we need a fallback.
 
 SSR fallback for our directive (`red-server.js`):
 

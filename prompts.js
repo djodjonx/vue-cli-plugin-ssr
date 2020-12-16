@@ -1,20 +1,21 @@
 module.exports = [
   {
     type: 'confirm',
+    name: 'useBuiltInsServer',
+    message: 'Use Koa builtIns server, if No, create local Koa server on root/server with conf',
+    default: false,
+  },
+  {
+    type: 'confirm',
     name: 'useVssr',
     message: 'Use Vssr for configure your server',
     default: false,
+    when: (answers) => answers.useBuiltInsServer === false,
   },
   {
     type: 'confirm',
     name: 'useModernMode',
     message: 'Use Modern mode app for your SSR app',
-    default: false,
-  },
-  {
-    type: 'confirm',
-    name: 'useBuiltInsServer',
-    message: 'Use Koa builtIns server, if No, create local Koa server on root/server with conf',
     default: false,
   },
   {
