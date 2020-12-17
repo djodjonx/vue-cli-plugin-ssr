@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const { chalk } = require('@vue/cli-shared-utils')
 <%_ if (!useVssr) { _%>
 const Router = require('koa-router')
 const Builder = require('vue-cli-plugin-vssr/lib/core/builder')
@@ -63,12 +64,11 @@ function createServer (config) {
         const url = `${host}:${port}`
         if (config.copyUrlOnStart) {
           require('clipboardy').write(url)
-          const { chalk } = require('@vue/cli-shared-utils')
           copied = chalk.dim('(copied to clipboard)')
         }
         console.info(`[info] Server SSR is running on ${chalk.cyan(url)} ${copied}}`)
-      },
-    app.listen(port, host, () => console.info(`[info] Server SSR is running on ${host}:${port}`))
+      }
+    )
   }
 
   return {
