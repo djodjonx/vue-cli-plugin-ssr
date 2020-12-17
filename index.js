@@ -124,6 +124,10 @@ module.exports = (api, options) => {
       process.env.NODE_ENV = 'development'
     }
 
+    if (config.service && config.service.projectOptions && config.service.projectOptions.pluginOptions && config.service.projectOptions.pluginOptions.vssr) {
+      userConfig = config.service.projectOptions.pluginOptions.vssr
+    }
+
     if (argsConfig) {
       const fullPath = path.resolve(rootPath, `${argsConfig}`)
       if (!fs.existsSync(fullPath)) {

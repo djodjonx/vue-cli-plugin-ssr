@@ -127,7 +127,7 @@ module.exports = (api, options, rootOptions) => {
           const file = getFile(api, './server/config.js')
           if (file) {
             const editedConfig = editConfig(config, {
-              vssr: templateOptions.useBuiltInsServer,
+              vssr: !templateOptions.useBuiltInsServer && templateOptions.useVssr,
               modern: templateOptions.useModernMode,
             })
             const configStringObject = stringify(editedConfig)
