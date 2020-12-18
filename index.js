@@ -33,6 +33,10 @@ module.exports = (api, options) => {
     const rimraf = require('rimraf')
     const modernMode = args.modern
 
+    if (modernMode) {
+      process.env.VUE_CLI_MODERN_MODE = true
+    }
+
     rimraf.sync(api.resolve(config.distPath))
 
     const { getWebpackConfigs } = require('./lib/webpack')
