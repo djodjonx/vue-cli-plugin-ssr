@@ -1,6 +1,6 @@
 {
   "name": "vue-cli-plugin-vssr",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Turn your Vue app into an isomorphic SSR app with customizable koa Server!",
   "author": "Jonathan Moutier",
   "license": "MIT",
