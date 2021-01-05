@@ -42,18 +42,14 @@ module.exports = (api, options) => {
     const { getWebpackConfigs } = require('./lib/webpack')
 
     const compile = ({ webpackConfigs, watch, service }) => {
-      if (modernMode) {
-        Object.keys(require.cache)
-          .filter(key => key.includes('@vue/cli-plugin-babel'))
-          .forEach(key => delete require.cache[key])
-      }
-
       const webpack = require('webpack')
       const formatStats = require('@vue/cli-service/lib/commands/build/formatStats')
 
       const options = service.projectOptions
 
       const compiler = webpack(webpackConfigs)
+
+      delete require.cache[require.resolve('@vue/cli-plugin-babel')]
       return new Promise((resolve) => {
         const onCompilationComplete = (err, stats) => {
           if (err) {
@@ -93,7 +89,9 @@ module.exports = (api, options) => {
 
     if (modernMode) {
       const { clientConfigLegacy, clientConfigModern, serverConfig } = getWebpackConfigs(service, true)
+      process.env.VUE_CLI_MODERN_MODE = true
       await compile({ webpackConfigs: [clientConfigLegacy, serverConfig], watch: args.watch, service })
+      process.env.VUE_CLI_MODERN_BUILD = true
       await compile({ webpackConfigs: [clientConfigModern], watch: args.watch, service })
     } else {
       const { clientConfig, serverConfig } = getWebpackConfigs(service)
